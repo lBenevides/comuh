@@ -44,7 +44,7 @@ class Api::V1::MessagesController < ApplicationController
   
   def set_user
     @user = User.find_or_create_by(username: message_params[:username])
-    
-    render json: { error: @user.errors }, status: :not_found unless @user.valid?
+  
+    render json: { error: @user.errors }, status: :unprocessable_entity unless @user.valid?
   end
 end
