@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       resources :messages, only: [:create]
       resources :reactions, only: [:create]
       get "communities/:id/messages/top", to: "communities#top"
+      get "analytics/suspicious_ips", to: "analytics#suspicious_ips"
     end
   end
 end
