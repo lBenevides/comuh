@@ -4,7 +4,7 @@ class Api::V1::ReactionsController < ApplicationController
   before_action :set_user, only: [:create]
 
   def create
-    #return if performed?
+    return if performed?
 
     reaction = @message.reactions.build(
       user: @user,
@@ -13,6 +13,8 @@ class Api::V1::ReactionsController < ApplicationController
 
     if reaction.save
       render json: ReactionSerializer.new(@message).as_json, status: :ok
+    elsif duplicate_reaction_error?(reaction)
+      render json: { errors: reaction.errors.full_messages }, status: :conflict
     else
       render json: { errors: reaction.errors.full_messages }, status: :unprocessable_entity
     end
@@ -29,12 +31,27 @@ class Api::V1::ReactionsController < ApplicationController
   end
 
   def set_user
-    @user = User.find_by(id: reaction_params[:user_id])
+    @user =
+      if reaction_params[:user_id].present?
+        User.find_by(id: reaction_params[:user_id])
+      elsif reaction_params[:username].present?
+        User.find_or_create_by(username: reaction_params[:username])
+      end
 
-    render json: { error: "User not found" }, status: :not_found unless @user
+    if @user&.valid?
+      return
+    elsif reaction_params[:username].present?
+      render json: { errors: @user&.errors&.full_messages || ["Username can't be blank"] }, status: :unprocessable_entity
+    else
+      render json: { error: "User not found" }, status: :not_found
+    end
   end
 
   def reaction_params
-    params.permit(:message_id, :user_id, :reaction_type)
+    params.permit(:message_id, :user_id, :username, :reaction_type)
+  end
+
+  def duplicate_reaction_error?(reaction)
+    reaction.errors.of_kind?(:user_id, :taken)
   end
 end

@@ -7,5 +7,8 @@ class Message < ApplicationRecord
   has_many :reactions, dependent: :destroy
 
   validates :content, presence: true
+  validates :user_ip, presence: true
+  validates :user, presence: true
+  validates :community, presence: true
 
 end

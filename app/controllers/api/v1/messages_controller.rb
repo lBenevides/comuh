@@ -4,8 +4,8 @@ class Api::V1::MessagesController < ApplicationController
   before_action :set_user, only: [:create]
 
   def create
-   
-    
+    return if performed?
+
     @message = Message.new(
       user: @user,
       community: @community,
@@ -19,10 +19,9 @@ class Api::V1::MessagesController < ApplicationController
     if @message.save
       render json: MessageSerializer.new(@message).as_json, status: :created
     else
-      render json: @message.errors, status: :unprocessable_entity
+      render json: { errors: @message.errors.full_messages }, status: :unprocessable_entity
     end
   end
-
 
   private
 
@@ -41,10 +40,10 @@ class Api::V1::MessagesController < ApplicationController
 
     render json: { error: "Community not found" }, status: :not_found unless @community
   end
-  
+
   def set_user
     @user = User.find_or_create_by(username: message_params[:username])
-  
-    render json: { error: @user.errors }, status: :unprocessable_entity unless @user.valid?
+
+    render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity unless @user.valid?
   end
 end

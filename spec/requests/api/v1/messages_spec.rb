@@ -42,9 +42,41 @@ RSpec.describe "Api::V1::Messages", type: :request do
       post "/api/v1/messages", params: payload.merge(username: nil)
 
       expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)).to eq(
+        "errors" => ["Username can't be blank"]
+      )
     end
 
     it "returns not found when community does not exist" do
+      post "/api/v1/messages", params: payload.merge(community_id: -1)
+
+      expect(response).to have_http_status(:not_found)
+      expect(JSON.parse(response.body)).to eq(
+        "error" => "Community not found"
+      )
+    end
+
+    it "returns validation errors when content is missing" do
+      post "/api/v1/messages", params: payload.merge(content: nil)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)).to eq(
+        "errors" => ["Content can't be blank"]
+      )
+    end
+
+    it "returns validation errors when user_ip is missing" do
+      post "/api/v1/messages", params: payload.merge(user_ip: nil)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)).to eq(
+        "errors" => ["User ip can't be blank"]
+      )
+    end
+
+    it "does not continue the flow after rendering community not found" do
+      expect(SentimentAnalyzer).not_to receive(:call)
+
       post "/api/v1/messages", params: payload.merge(community_id: -1)
 
       expect(response).to have_http_status(:not_found)

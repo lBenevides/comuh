@@ -82,6 +82,19 @@ RSpec.describe "Api::V1::Reactions", type: :request do
       )
     end
 
+    it "returns conflict when the same user repeats the same reaction type" do
+      Reaction.create!(message: message, user: user, reaction_type: "like")
+
+      expect do
+        post "/api/v1/reactions", params: payload
+      end.not_to change(Reaction, :count)
+
+      expect(response).to have_http_status(:conflict)
+      expect(JSON.parse(response.body)).to eq(
+        "errors" => ["User has already added this reaction to this message"]
+      )
+    end
+
     it "returns not found when message does not exist" do
       post "/api/v1/reactions", params: payload.merge(message_id: -1)
 
