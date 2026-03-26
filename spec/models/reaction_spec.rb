@@ -24,14 +24,14 @@ RSpec.describe Reaction, type: :model do
       reaction = described_class.new(message: message, user: user, reaction_type: nil)
 
       expect(reaction).not_to be_valid
-      expect(reaction.errors.full_messages).to include("Reaction type can't be blank")
+      expect(reaction.errors.full_messages).to include("Tipo de reacao nao pode ficar em branco")
     end
 
     it "rejects unsupported reaction types" do
       reaction = described_class.new(message: message, user: user, reaction_type: "haha")
 
       expect(reaction).not_to be_valid
-      expect(reaction.errors.full_messages).to include("Reaction type is not included in the list")
+      expect(reaction.errors.full_messages).to include("Tipo de reacao nao esta incluido na lista")
     end
 
     it "prevents the same user from repeating the same reaction type on a message" do
@@ -40,7 +40,7 @@ RSpec.describe Reaction, type: :model do
 
       expect(duplicate_reaction).not_to be_valid
       expect(duplicate_reaction.errors.full_messages).to include(
-        "User has already added this reaction to this message"
+        "Usuario ja adicionou essa reacao nesta mensagem"
       )
     end
 

@@ -19,7 +19,7 @@ RSpec.describe "Frontend pages", type: :request do
     get "/"
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Communities with pulse")
+    expect(response.body).to include("Comunidades com pulso")
     expect(response.body).to include("General")
   end
 
@@ -28,14 +28,21 @@ RSpec.describe "Frontend pages", type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("Frontend ready")
-    expect(response.body).to include("Start a new thread")
+    expect(response.body).to include("Iniciar nova thread")
   end
 
   it "renders the message detail page" do
     get "/messages/#{message.id}"
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Main message and replies")
+    expect(response.body).to include("Mensagem principal e respostas")
     expect(response.body).to include("Frontend ready")
+  end
+
+  it "renders the home page in english when locale=en" do
+    get "/", params: { locale: "en" }
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Communities with pulse")
   end
 end

@@ -1,31 +1,83 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  app_name: "Comuh"
+  layout:
+    locale:
+      label: "Language"
+      pt: "PT"
+      en: "EN"
+  api:
+    errors:
+      community_not_found: "Community not found"
+      message_not_found: "Message not found"
+      user_not_found: "User not found"
+      already_reacted: "User has already added this reaction to this message"
+  communities:
+    index:
+      title: "Communities"
+      eyebrow: "Comuh"
+      headline: "Communities with pulse, not just posts."
+      copy: "Explore active spaces, spot what is moving people, and jump into threads with live sentiment and reactions."
+      card_meta: "Community"
+      empty_description: "A fresh space waiting for the next conversation."
+      open_timeline: "Open timeline"
+      messages_count:
+        one: "%{count} message"
+        other: "%{count} messages"
+    show:
+      back: "Back to communities"
+      eyebrow: "Timeline"
+      empty_description: "Messages, reactions, and replies from this community in reverse chronological order."
+      latest: "Latest"
+      latest_value: "50 messages"
+  messages:
+    show:
+      title: "Message #%{id}"
+      back: "Back to %{community}"
+      eyebrow: "Thread"
+      headline: "Main message and replies"
+    composer:
+      new_thread_title: "Start a new thread"
+      new_thread_description: "Your message is sent in the background and appears here without reloading."
+      new_thread_placeholder: "What is happening in this community?"
+      reply_title: "Reply to this message"
+      reply_description: "Comments are posted in the background and added to the thread instantly."
+      reply_placeholder: "Add context, ask a question, or keep the thread moving."
+      username: "Username"
+      content: "Message"
+      reply: "Reply"
+      submit_message: "Publish message"
+      submit_reply: "Post reply"
+      status:
+        sending: "Sending..."
+        success: "Published."
+        generic_error: "Unable to send message."
+      timestamp:
+        just_now: "just now"
+    card:
+      sentiment:
+        positive: "Positive"
+        negative: "Negative"
+        neutral: "Neutral"
+      replies:
+        one: "%{count} reply"
+        other: "%{count} replies"
+      open_thread: "Open thread"
+    reactions:
+      react_as: "React as"
+      username_placeholder: "username"
+      status:
+        missing_reaction: "Unable to identify the selected reaction."
+        enter_username: "Enter a username to react."
+        saving: "Saving..."
+        success: "Reaction saved."
+        generic_error: "Unable to save reaction."
+      types:
+        like: "Like"
+        love: "Love"
+        insightful: "Insightful"
+  errors:
+    messages:
+      already_reacted: "has already added this reaction to this message"
+  time:
+    formats:
+      message_card: "%m/%d/%Y %H:%M"

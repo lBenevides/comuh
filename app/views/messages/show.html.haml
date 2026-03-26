@@ -1,0 +1,26 @@
+- content_for :title, t("messages.show.title", id: @message.id)
+
+%main.shell.shell-thread
+  %section.thread-header
+    = link_to t("messages.show.back", community: @message.community.name), community_path(@message.community), class: "back-link"
+    %p.eyebrow= t("messages.show.eyebrow")
+    %h1= t("messages.show.headline")
+
+  %section.thread-main
+    = render "messages/message_card", message: @message, context: :thread, expanded: true
+
+  = render "messages/composer",
+    composer_class: "composer-reply",
+    community_id: @message.community_id,
+    parent_message_id: @message.id,
+    target_list_id: "thread-replies",
+    mode: "append",
+    title: t("messages.composer.reply_title"),
+    description: t("messages.composer.reply_description"),
+    textarea_label: t("messages.composer.reply"),
+    textarea_placeholder: t("messages.composer.reply_placeholder"),
+    submit_label: t("messages.composer.submit_reply")
+
+  %section#thread-replies.thread-stack
+    - @replies.each do |reply|
+      = render "messages/thread_message", message: reply, depth: 1

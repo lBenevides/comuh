@@ -1,0 +1,22 @@
+!!!
+%html{ lang: I18n.locale }
+  %head
+    %title= content_for(:title) || t("app_name")
+    %meta{ name: "viewport", content: "width=device-width,initial-scale=1" }
+    %meta{ name: "apple-mobile-web-app-capable", content: "yes" }
+    %meta{ name: "application-name", content: t("app_name") }
+    %meta{ name: "mobile-web-app-capable", content: "yes" }
+    = csrf_meta_tags
+    = csp_meta_tag
+    = yield :head
+    %link{ rel: "icon", href: "/icon.png", type: "image/png" }
+    %link{ rel: "icon", href: "/icon.svg", type: "image/svg+xml" }
+    %link{ rel: "apple-touch-icon", href: "/icon.png" }
+    = stylesheet_link_tag :app, "data-turbo-track": "reload"
+    = javascript_importmap_tags
+  %body
+    %header.locale-switcher
+      %span.locale-switcher__label= t("layout.locale.label")
+      = link_to t("layout.locale.pt"), locale_switch_url(:"pt-BR"), class: "secondary-link"
+      = link_to t("layout.locale.en"), locale_switch_url(:en), class: "secondary-link"
+    = yield

@@ -68,3 +68,5 @@ group :test do
 end
 
 gem "simplecov", "~> 0.22.0", group: :test
+
+gem "haml-rails", "~> 3.0"

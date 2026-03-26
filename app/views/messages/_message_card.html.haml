@@ -1,0 +1,22 @@
+- counts = reaction_counts_for(message)
+- expanded = local_assigns.fetch(:expanded, false)
+
+%article.message-card{ class: ("message-card-expanded" if expanded), id: "message-#{message.id}" }
+  .message-card__topline
+    %div
+      %p.message-card__author= message.user.username
+      %p.message-card__timestamp= message_timestamp(message.created_at)
+
+    .message-card__badges
+      %span.sentiment-pill{ class: sentiment_tone_class(message.ai_sentiment_score) }
+        = "#{sentiment_label(message.ai_sentiment_score)} · #{number_with_precision(message.ai_sentiment_score.to_f, precision: 2)}"
+
+  %p.message-card__content= message.content
+
+  .message-card__footer
+    = render "messages/reaction_bar", message: message, counts: counts
+
+    .message-card__meta
+      %span= t("messages.card.replies", count: message.replies.size)
+      - if context == :community
+        = link_to t("messages.card.open_thread"), message_path(message), class: "secondary-link"

@@ -12,7 +12,7 @@ RSpec.describe Community, type: :model do
       community = described_class.new(name: nil)
 
       expect(community).not_to be_valid
-      expect(community.errors.full_messages).to include("Name can't be blank")
+      expect(community.errors.full_messages).to include("Nome nao pode ficar em branco")
     end
 
     it "requires a unique name" do
@@ -20,7 +20,7 @@ RSpec.describe Community, type: :model do
       duplicate_community = described_class.new(name: "General")
 
       expect(duplicate_community).not_to be_valid
-      expect(duplicate_community.errors.full_messages).to include("Name has already been taken")
+      expect(duplicate_community.errors.full_messages).to include("Nome ja esta em uso")
     end
   end
 end

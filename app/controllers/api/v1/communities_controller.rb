@@ -24,7 +24,7 @@ class Api::V1::CommunitiesController < ApplicationController
   def set_community
     @community = Community.find_by(id: params[:id])
 
-    render json: { error: "Community not found" }, status: :not_found unless @community
+    render json: { error: I18n.t("api.errors.community_not_found") }, status: :not_found unless @community
   end
 
   def limit_param

@@ -91,7 +91,7 @@ RSpec.describe "Api::V1::Reactions", type: :request do
 
       expect(response).to have_http_status(:conflict)
       expect(JSON.parse(response.body)).to eq(
-        "errors" => ["User has already added this reaction to this message"]
+        "errors" => ["Usuario ja adicionou essa reacao nesta mensagem"]
       )
     end
 
@@ -100,7 +100,7 @@ RSpec.describe "Api::V1::Reactions", type: :request do
 
       expect(response).to have_http_status(:not_found)
       expect(JSON.parse(response.body)).to eq(
-        "error" => "Message not found"
+        "error" => "Mensagem nao encontrada"
       )
     end
 
@@ -109,7 +109,7 @@ RSpec.describe "Api::V1::Reactions", type: :request do
 
       expect(response).to have_http_status(:not_found)
       expect(JSON.parse(response.body)).to eq(
-        "error" => "User not found"
+        "error" => "Usuario nao encontrado"
       )
     end
 
@@ -118,7 +118,7 @@ RSpec.describe "Api::V1::Reactions", type: :request do
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(JSON.parse(response.body)).to eq(
-        "errors" => ["Reaction type is not included in the list"]
+        "errors" => ["Tipo de reacao nao esta incluido na lista"]
       )
     end
 
@@ -128,8 +128,8 @@ RSpec.describe "Api::V1::Reactions", type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(JSON.parse(response.body)).to eq(
         "errors" => [
-          "Reaction type can't be blank",
-          "Reaction type is not included in the list"
+          "Tipo de reacao nao pode ficar em branco",
+          "Tipo de reacao nao esta incluido na lista"
         ]
       )
     end

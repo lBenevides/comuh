@@ -48,6 +48,21 @@ textarea {
   padding: 40px 0 72px;
 }
 
+.locale-switcher {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding-top: 18px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.locale-switcher__label {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
 .hero,
 .community-hero,
 .thread-header {

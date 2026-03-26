@@ -1,0 +1,18 @@
+.reaction-row{ data: {
+  controller: "reaction",
+  reaction_message_id_value: message.id,
+  reaction_missing_reaction_message_value: t("messages.reactions.status.missing_reaction"),
+  reaction_missing_username_message_value: t("messages.reactions.status.enter_username"),
+  reaction_saving_message_value: t("messages.reactions.status.saving"),
+  reaction_success_message_value: t("messages.reactions.status.success"),
+  reaction_generic_error_message_value: t("messages.reactions.status.generic_error")
+} }
+  - Reaction::REACTION_TYPES.each do |reaction_type|
+    %button.reaction-button{ type: "button", data: { action: "click->reaction#react", reaction_reaction_type_param: reaction_type } }
+      %span= reaction_label(reaction_type)
+      %strong{ data: { reaction_target: "count", reaction_type: reaction_type } }= counts[reaction_type]
+
+  %label.reaction-user
+    %span= t("messages.reactions.react_as")
+    %input{ type: "text", placeholder: t("messages.reactions.username_placeholder"), data: { reaction_target: "username" } }
+  %p.reaction-status{ data: { reaction_target: "status" } }

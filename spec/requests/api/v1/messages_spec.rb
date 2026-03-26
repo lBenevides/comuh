@@ -43,7 +43,7 @@ RSpec.describe "Api::V1::Messages", type: :request do
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(JSON.parse(response.body)).to eq(
-        "errors" => ["Username can't be blank"]
+        "errors" => ["Usuario nao pode ficar em branco"]
       )
     end
 
@@ -52,7 +52,7 @@ RSpec.describe "Api::V1::Messages", type: :request do
 
       expect(response).to have_http_status(:not_found)
       expect(JSON.parse(response.body)).to eq(
-        "error" => "Community not found"
+        "error" => "Comunidade nao encontrada"
       )
     end
 
@@ -61,17 +61,18 @@ RSpec.describe "Api::V1::Messages", type: :request do
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(JSON.parse(response.body)).to eq(
-        "errors" => ["Content can't be blank"]
+        "errors" => ["Conteudo nao pode ficar em branco"]
       )
     end
 
-    it "returns validation errors when user_ip is missing" do
+    it "uses the request ip when user_ip is missing" do
       post "/api/v1/messages", params: payload.merge(user_ip: nil)
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(JSON.parse(response.body)).to eq(
-        "errors" => ["User ip can't be blank"]
+      expect(response).to have_http_status(:created)
+      expect(JSON.parse(response.body)).to include(
+        "content" => "otimo"
       )
+      expect(Message.order(:id).last.user_ip).to be_present
     end
 
     it "does not continue the flow after rendering community not found" do

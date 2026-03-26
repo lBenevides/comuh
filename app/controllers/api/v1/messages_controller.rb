@@ -10,7 +10,7 @@ class Api::V1::MessagesController < ApplicationController
       user: @user,
       community: @community,
       content: message_params[:content],
-      user_ip: message_params[:user_ip],
+      user_ip: message_params[:user_ip].presence || request.remote_ip,
       parent_message_id: message_params[:parent_message_id]
     )
 
@@ -38,7 +38,7 @@ class Api::V1::MessagesController < ApplicationController
   def set_community
     @community = Community.find_by(id: message_params[:community_id])
 
-    render json: { error: "Community not found" }, status: :not_found unless @community
+    render json: { error: I18n.t("api.errors.community_not_found") }, status: :not_found unless @community
   end
 
   def set_user

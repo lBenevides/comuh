@@ -19,7 +19,7 @@ class Api::V1::ReactionsController < ApplicationController
       render json: { errors: reaction.errors.full_messages }, status: :unprocessable_entity
     end
   rescue ActiveRecord::RecordNotUnique
-    render json: { errors: ["User has already added this reaction to this message"] }, status: :conflict
+    render json: { errors: [I18n.t("api.errors.already_reacted")] }, status: :conflict
   end
 
   private
@@ -27,7 +27,7 @@ class Api::V1::ReactionsController < ApplicationController
   def set_message
     @message = Message.find_by(id: reaction_params[:message_id])
 
-    render json: { error: "Message not found" }, status: :not_found unless @message
+    render json: { error: I18n.t("api.errors.message_not_found") }, status: :not_found unless @message
   end
 
   def set_user
@@ -41,9 +41,9 @@ class Api::V1::ReactionsController < ApplicationController
     if @user&.valid?
       return
     elsif reaction_params[:username].present?
-      render json: { errors: @user&.errors&.full_messages || ["Username can't be blank"] }, status: :unprocessable_entity
+      render json: { errors: @user&.errors&.full_messages || [I18n.t("activerecord.errors.models.user.attributes.username.blank")] }, status: :unprocessable_entity
     else
-      render json: { error: "User not found" }, status: :not_found
+      render json: { error: I18n.t("api.errors.user_not_found") }, status: :not_found
     end
   end
 

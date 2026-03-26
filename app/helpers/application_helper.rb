@@ -8,10 +8,10 @@ module ApplicationHelper
   end
 
   def sentiment_label(score)
-    return "Positive" if score.to_f > 0.2
-    return "Negative" if score.to_f < -0.2
+    return t("messages.card.sentiment.positive") if score.to_f > 0.2
+    return t("messages.card.sentiment.negative") if score.to_f < -0.2
 
-    "Neutral"
+    t("messages.card.sentiment.neutral")
   end
 
   def sentiment_tone_class(score)
@@ -19,5 +19,17 @@ module ApplicationHelper
     return "sentiment-negative" if score.to_f < -0.2
 
     "sentiment-neutral"
+  end
+
+  def message_timestamp(timestamp)
+    l(timestamp, format: :message_card)
+  end
+
+  def reaction_label(reaction_type)
+    t("messages.reactions.types.#{reaction_type}")
+  end
+
+  def locale_switch_url(locale)
+    url_for(locale: locale)
   end
 end

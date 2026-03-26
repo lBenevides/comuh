@@ -6,7 +6,26 @@ export default class extends Controller {
     communityId: Number,
     parentMessageId: String,
     targetList: String,
-    mode: String
+    mode: String,
+    sendingMessage: String,
+    successMessage: String,
+    genericErrorMessage: String,
+    timestampJustNow: String,
+    sentimentPositiveLabel: String,
+    sentimentNegativeLabel: String,
+    sentimentNeutralLabel: String,
+    repliesLabel: String,
+    openThreadLabel: String,
+    reactionLikeLabel: String,
+    reactionLoveLabel: String,
+    reactionInsightfulLabel: String,
+    reactionReactAsLabel: String,
+    reactionUsernamePlaceholder: String,
+    reactionMissingReactionMessage: String,
+    reactionMissingUsernameMessage: String,
+    reactionSavingMessage: String,
+    reactionSuccessMessage: String,
+    reactionGenericErrorMessage: String
   }
 
   async submit(event) {
@@ -17,11 +36,10 @@ export default class extends Controller {
       username: formData.get("username"),
       community_id: this.communityIdValue,
       content: formData.get("content"),
-      user_ip: formData.get("user_ip"),
       parent_message_id: this.parentMessageIdValue || null
     }
 
-    this.setBusyState(true, "Sending...")
+    this.setBusyState(true, this.sendingMessageValue)
 
     try {
       const response = await fetch("/api/v1/messages", {
@@ -37,12 +55,12 @@ export default class extends Controller {
       const body = await response.json()
 
       if (!response.ok) {
-        throw new Error((body.errors || [body.error || "Unable to send message."]).join(", "))
+        throw new Error((body.errors || [body.error || this.genericErrorMessageValue]).join(", "))
       }
 
       this.injectMessage(body)
       this.formTarget.reset()
-      this.setBusyState(false, "Published.")
+      this.setBusyState(false, this.successMessageValue)
     } catch (error) {
       this.setBusyState(false, error.message)
     }
@@ -64,9 +82,10 @@ export default class extends Controller {
 
   messageTemplate(message) {
     const sentimentScore = Number(message.ai_sentiment_score || 0)
-    const sentimentLabel = sentimentScore > 0.2 ? "Positive" : sentimentScore < -0.2 ? "Negative" : "Neutral"
+    const sentimentLabel = sentimentScore > 0.2 ? this.sentimentPositiveLabelValue : sentimentScore < -0.2 ? this.sentimentNegativeLabelValue : this.sentimentNeutralLabelValue
     const sentimentClass = sentimentScore > 0.2 ? "sentiment-positive" : sentimentScore < -0.2 ? "sentiment-negative" : "sentiment-neutral"
-    const replyMeta = this.parentMessageIdValue ? "0 replies" : '<a class="secondary-link" href="/messages/' + message.id + '">Open thread</a>'
+    const replyCountLabel = this.repliesLabelValue.replace("%{count}", "0")
+    const replyMeta = this.parentMessageIdValue ? replyCountLabel : '<a class="secondary-link" href="/messages/' + message.id + '">' + this.openThreadLabelValue + "</a>"
     const containerClass = this.parentMessageIdValue ? "thread-node" : ""
 
     return `
@@ -75,7 +94,7 @@ export default class extends Controller {
           <div class="message-card__topline">
             <div>
               <p class="message-card__author">${this.escapeHtml(message.user.username)}</p>
-              <p class="message-card__timestamp">just now</p>
+              <p class="message-card__timestamp">${this.timestampJustNowValue}</p>
             </div>
             <div class="message-card__badges">
               <span class="sentiment-pill ${sentimentClass}">
@@ -85,21 +104,33 @@ export default class extends Controller {
           </div>
           <p class="message-card__content">${this.escapeHtml(message.content)}</p>
           <div class="message-card__footer">
-            <div class="reaction-row" data-controller="reaction" data-reaction-message-id-value="${message.id}">
-              ${["like", "love", "insightful"].map((reactionType) => `
-                <button type="button" class="reaction-button" data-action="click->reaction#react" data-reaction-type-param="${reactionType}">
-                  <span>${reactionType.charAt(0).toUpperCase() + reactionType.slice(1)}</span>
+            <div
+              class="reaction-row"
+              data-controller="reaction"
+              data-reaction-message-id-value="${message.id}"
+              data-reaction-missing-reaction-message-value="${this.escapeHtml(this.reactionMissingReactionMessageValue)}"
+              data-reaction-missing-username-message-value="${this.escapeHtml(this.reactionMissingUsernameMessageValue)}"
+              data-reaction-saving-message-value="${this.escapeHtml(this.reactionSavingMessageValue)}"
+              data-reaction-success-message-value="${this.escapeHtml(this.reactionSuccessMessageValue)}"
+              data-reaction-generic-error-message-value="${this.escapeHtml(this.reactionGenericErrorMessageValue)}">
+              ${[
+                ["like", this.reactionLikeLabelValue],
+                ["love", this.reactionLoveLabelValue],
+                ["insightful", this.reactionInsightfulLabelValue]
+              ].map(([reactionType, label]) => `
+                <button type="button" class="reaction-button" data-action="click->reaction#react" data-reaction-reaction-type-param="${reactionType}">
+                  <span>${this.escapeHtml(label)}</span>
                   <strong data-reaction-target="count" data-reaction-type="${reactionType}">0</strong>
                 </button>
               `).join("")}
               <label class="reaction-user">
-                <span>React as</span>
-                <input type="text" placeholder="username" data-reaction-target="username">
+                <span>${this.escapeHtml(this.reactionReactAsLabelValue)}</span>
+                <input type="text" placeholder="${this.escapeHtml(this.reactionUsernamePlaceholderValue)}" data-reaction-target="username">
               </label>
               <p class="reaction-status" data-reaction-target="status"></p>
             </div>
             <div class="message-card__meta">
-              <span>0 replies</span>
+              <span>${replyCountLabel}</span>
               ${replyMeta}
             </div>
           </div>

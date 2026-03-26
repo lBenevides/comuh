@@ -1,0 +1,28 @@
+- content_for :title, @community.name
+
+%main.shell.shell-community
+  %section.community-hero
+    %div
+      = link_to t("communities.show.back"), root_path, class: "back-link"
+      %p.eyebrow= t("communities.show.eyebrow")
+      %h1= @community.name
+      %p.hero-copy= @community.description.presence || t("communities.show.empty_description")
+
+    .hero-stat
+      %span= t("communities.show.latest")
+      %strong= t("communities.show.latest_value")
+
+  = render "messages/composer",
+    community_id: @community.id,
+    parent_message_id: nil,
+    target_list_id: "community-message-list",
+    mode: "prepend",
+    title: t("messages.composer.new_thread_title"),
+    description: t("messages.composer.new_thread_description"),
+    textarea_label: t("messages.composer.content"),
+    textarea_placeholder: t("messages.composer.new_thread_placeholder"),
+    submit_label: t("messages.composer.submit_message")
+
+  %section#community-message-list.message-list
+    - @messages.each do |message|
+      = render "messages/message_card", message: message, context: :community

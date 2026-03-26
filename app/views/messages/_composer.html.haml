@@ -1,0 +1,44 @@
+%section.composer{ class: local_assigns[:composer_class],
+  data: {
+    controller: "message-form",
+    message_form_community_id_value: community_id,
+    message_form_parent_message_id_value: parent_message_id,
+    message_form_target_list_value: target_list_id,
+    message_form_mode_value: mode,
+    message_form_sending_message_value: t("messages.composer.status.sending"),
+    message_form_success_message_value: t("messages.composer.status.success"),
+    message_form_generic_error_message_value: t("messages.composer.status.generic_error"),
+    message_form_timestamp_just_now_value: t("messages.composer.timestamp.just_now"),
+    message_form_sentiment_positive_label_value: t("messages.card.sentiment.positive"),
+    message_form_sentiment_negative_label_value: t("messages.card.sentiment.negative"),
+    message_form_sentiment_neutral_label_value: t("messages.card.sentiment.neutral"),
+    message_form_replies_label_value: t("messages.card.replies", count: "%{count}"),
+    message_form_open_thread_label_value: t("messages.card.open_thread"),
+    message_form_reaction_like_label_value: t("messages.reactions.types.like"),
+    message_form_reaction_love_label_value: t("messages.reactions.types.love"),
+    message_form_reaction_insightful_label_value: t("messages.reactions.types.insightful"),
+    message_form_reaction_react_as_label_value: t("messages.reactions.react_as"),
+    message_form_reaction_username_placeholder_value: t("messages.reactions.username_placeholder"),
+    message_form_reaction_missing_reaction_message_value: t("messages.reactions.status.missing_reaction"),
+    message_form_reaction_missing_username_message_value: t("messages.reactions.status.enter_username"),
+    message_form_reaction_saving_message_value: t("messages.reactions.status.saving"),
+    message_form_reaction_success_message_value: t("messages.reactions.status.success"),
+    message_form_reaction_generic_error_message_value: t("messages.reactions.status.generic_error")
+  } }
+  .composer__heading
+    %h2= title
+    %p= description
+
+  %form{ data: { message_form_target: "form", action: "submit->message-form#submit" } }
+    .field-row
+      %label
+        %span= t("messages.composer.username")
+        %input{ type: "text", name: "username", required: true, placeholder: "your_name" }
+
+    %label
+      %span= textarea_label
+      %textarea{ name: "content", rows: 4, required: true, placeholder: textarea_placeholder }
+
+    .composer__actions
+      %button.primary-button{ type: "submit", data: { message_form_target: "submit" } }= submit_label
+      %p.form-status{ data: { message_form_target: "status" } }

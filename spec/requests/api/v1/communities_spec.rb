@@ -112,7 +112,7 @@ RSpec.describe "Api::V1::Communities", type: :request do
 
       expect(response).to have_http_status(:not_found)
       expect(JSON.parse(response.body)).to eq(
-        "error" => "Community not found"
+        "error" => "Comunidade nao encontrada"
       )
     end
   end

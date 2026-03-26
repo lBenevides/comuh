@@ -12,7 +12,7 @@ RSpec.describe User, type: :model do
       user = described_class.new(username: nil)
 
       expect(user).not_to be_valid
-      expect(user.errors.full_messages).to include("Username can't be blank")
+      expect(user.errors.full_messages).to include("Usuario nao pode ficar em branco")
     end
 
     it "requires a unique username" do
@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
       duplicate_user = described_class.new(username: "victor_boe")
 
       expect(duplicate_user).not_to be_valid
-      expect(duplicate_user.errors.full_messages).to include("Username has already been taken")
+      expect(duplicate_user.errors.full_messages).to include("Usuario ja esta em uso")
     end
   end
 end

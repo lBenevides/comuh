@@ -6,5 +6,5 @@ class Reaction < ApplicationRecord
 
   validates :reaction_type, presence: true
   validates :reaction_type, inclusion: { in: REACTION_TYPES }
-  validates :user_id, uniqueness: { scope: [:message_id, :reaction_type], message: "has already added this reaction to this message" }
+  validates :user_id, uniqueness: { scope: [:message_id, :reaction_type], message: :already_reacted }
 end

@@ -2,18 +2,30 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["count", "status", "username"]
-  static values = { messageId: Number }
+  static values = {
+    messageId: Number,
+    missingReactionMessage: String,
+    missingUsernameMessage: String,
+    savingMessage: String,
+    successMessage: String,
+    genericErrorMessage: String
+  }
 
   async react(event) {
-    const reactionType = event.params.reactionType
+    const reactionType = event.params.reactionType || event.currentTarget.dataset.reactionReactionTypeParam
     const username = this.usernameTarget.value.trim()
 
-    if (!username) {
-      this.statusTarget.textContent = "Enter a username to react."
+    if (!reactionType) {
+      this.statusTarget.textContent = this.missingReactionMessageValue
       return
     }
 
-    this.statusTarget.textContent = "Saving..."
+    if (!username) {
+      this.statusTarget.textContent = this.missingUsernameMessageValue
+      return
+    }
+
+    this.statusTarget.textContent = this.savingMessageValue
 
     try {
       const response = await fetch("/api/v1/reactions", {
@@ -33,11 +45,11 @@ export default class extends Controller {
       const body = await response.json()
 
       if (!response.ok) {
-        throw new Error((body.errors || [body.error || "Unable to save reaction."]).join(", "))
+        throw new Error((body.errors || [body.error || this.genericErrorMessageValue]).join(", "))
       }
 
       this.updateCounts(body.reactions)
-      this.statusTarget.textContent = "Reaction saved."
+      this.statusTarget.textContent = this.successMessageValue
     } catch (error) {
       this.statusTarget.textContent = error.message
     }

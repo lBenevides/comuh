@@ -1,0 +1,116 @@
+"pt-BR":
+  app_name: "Comuh"
+  layout:
+    locale:
+      label: "Idioma"
+      pt: "PT"
+      en: "EN"
+  api:
+    errors:
+      community_not_found: "Comunidade nao encontrada"
+      message_not_found: "Mensagem nao encontrada"
+      user_not_found: "Usuario nao encontrado"
+      already_reacted: "Usuario ja adicionou essa reacao nesta mensagem"
+  communities:
+    index:
+      title: "Comunidades"
+      eyebrow: "Comuh"
+      headline: "Comunidades com pulso, nao so posts."
+      copy: "Explore espacos ativos, veja o que esta movimentando as pessoas e entre em threads com sentimento e reacoes ao vivo."
+      card_meta: "Comunidade"
+      empty_description: "Um espaco novo esperando pela proxima conversa."
+      open_timeline: "Abrir timeline"
+      messages_count:
+        one: "%{count} mensagem"
+        other: "%{count} mensagens"
+    show:
+      back: "Voltar para comunidades"
+      eyebrow: "Timeline"
+      empty_description: "Mensagens, reacoes e respostas desta comunidade em ordem da mais recente para a mais antiga."
+      latest: "Ultimas"
+      latest_value: "50 mensagens"
+  messages:
+    show:
+      title: "Mensagem #%{id}"
+      back: "Voltar para %{community}"
+      eyebrow: "Thread"
+      headline: "Mensagem principal e respostas"
+    composer:
+      new_thread_title: "Iniciar nova thread"
+      new_thread_description: "Sua mensagem e enviada em background e aparece aqui sem recarregar."
+      new_thread_placeholder: "O que esta acontecendo nesta comunidade?"
+      reply_title: "Responder esta mensagem"
+      reply_description: "Os comentarios sao publicados em background e adicionados a thread instantaneamente."
+      reply_placeholder: "Adicione contexto, faca uma pergunta ou mantenha a thread em movimento."
+      username: "Usuario"
+      content: "Mensagem"
+      reply: "Resposta"
+      submit_message: "Publicar mensagem"
+      submit_reply: "Publicar resposta"
+      status:
+        sending: "Enviando..."
+        success: "Publicado."
+        generic_error: "Nao foi possivel enviar a mensagem."
+      timestamp:
+        just_now: "agora mesmo"
+    card:
+      sentiment:
+        positive: "Positivo"
+        negative: "Negativo"
+        neutral: "Neutro"
+      replies:
+        one: "%{count} resposta"
+        other: "%{count} respostas"
+      open_thread: "Abrir thread"
+    reactions:
+      react_as: "Reagir como"
+      username_placeholder: "usuario"
+      status:
+        missing_reaction: "Nao foi possivel identificar a reacao selecionada."
+        enter_username: "Informe um usuario para reagir."
+        saving: "Salvando..."
+        success: "Reacao salva."
+        generic_error: "Nao foi possivel salvar a reacao."
+      types:
+        like: "Curtir"
+        love: "Amar"
+        insightful: "Insightful"
+  activerecord:
+    models:
+      user: "Usuario"
+      community: "Comunidade"
+      message: "Mensagem"
+      reaction: "Reacao"
+    attributes:
+      user:
+        username: "Usuario"
+      community:
+        name: "Nome"
+      message:
+        content: "Conteudo"
+        user_ip: "IP do usuario"
+        user: "Usuario"
+        community: "Comunidade"
+      reaction:
+        reaction_type: "Tipo de reacao"
+        user_id: "Usuario"
+    errors:
+      models:
+        user:
+          attributes:
+            username:
+              blank: "nao pode ficar em branco"
+        reaction:
+          attributes:
+            reaction_type:
+              blank: "nao pode ficar em branco"
+              inclusion: "nao esta incluido na lista"
+  errors:
+    messages:
+      blank: "nao pode ficar em branco"
+      taken: "ja esta em uso"
+      inclusion: "nao esta incluido na lista"
+      already_reacted: "ja adicionou essa reacao nesta mensagem"
+  time:
+    formats:
+      message_card: "%d/%m/%Y %H:%M"
