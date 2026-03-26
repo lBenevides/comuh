@@ -4,6 +4,7 @@ RSpec.describe "Api::V1::Reactions", type: :request do
   describe "POST /api/v1/reactions" do
     let!(:community) { Community.create!(name: "General") }
     let!(:user) { User.create!(username: "victor_boe") }
+    let!(:other_user) { User.create!(username: "alice") }
     let!(:message) do
       Message.create!(
         user: user,
@@ -40,32 +41,84 @@ RSpec.describe "Api::V1::Reactions", type: :request do
       )
     end
 
-    it "returns conflict when the reaction already exists" do
+    it "returns aggregated counts including existing reactions from other users and types" do
+      Reaction.create!(message: message, user: other_user, reaction_type: "like")
+      Reaction.create!(message: message, user: other_user, reaction_type: "love")
+
+      post "/api/v1/reactions", params: payload
+
+      expect(response).to have_http_status(:ok)
+
+      body = JSON.parse(response.body)
+
+      expect(body).to eq(
+        "message_id" => message.id,
+        "reactions" => {
+          "like" => 2,
+          "love" => 1,
+          "insightful" => 0
+        }
+      )
+    end
+
+    it "allows the same user to react with a different reaction type" do
       Reaction.create!(message: message, user: user, reaction_type: "like")
 
       expect do
-        post "/api/v1/reactions", params: payload
-      end.not_to change(Reaction, :count)
+        post "/api/v1/reactions", params: payload.merge(reaction_type: "love")
+      end.to change(Reaction, :count).by(1)
 
-      expect(response).to have_http_status(:conflict)
+      expect(response).to have_http_status(:ok)
+
+      body = JSON.parse(response.body)
+
+      expect(body).to eq(
+        "message_id" => message.id,
+        "reactions" => {
+          "like" => 1,
+          "love" => 1,
+          "insightful" => 0
+        }
+      )
     end
 
     it "returns not found when message does not exist" do
       post "/api/v1/reactions", params: payload.merge(message_id: -1)
 
       expect(response).to have_http_status(:not_found)
+      expect(JSON.parse(response.body)).to eq(
+        "error" => "Message not found"
+      )
     end
 
     it "returns not found when user does not exist" do
       post "/api/v1/reactions", params: payload.merge(user_id: -1)
 
       expect(response).to have_http_status(:not_found)
+      expect(JSON.parse(response.body)).to eq(
+        "error" => "User not found"
+      )
     end
 
     it "returns unprocessable entity for invalid reaction type" do
       post "/api/v1/reactions", params: payload.merge(reaction_type: "haha")
 
       expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)).to eq(
+        "errors" => ["Reaction type is not included in the list"]
+      )
+    end
+
+    it "returns unprocessable entity when reaction_type is missing" do
+      post "/api/v1/reactions", params: payload.except(:reaction_type)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)).to eq(
+        "errors" => [
+          "Reaction type can't be blank",
+          "Reaction type is not included in the list"
+        ]
+      )
     end
   end
 end
