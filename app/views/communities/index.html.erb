@@ -1,0 +1,29 @@
+<% content_for :title, "Communities" %>
+
+<main class="shell shell-home">
+  <section class="hero">
+    <p class="eyebrow">Comuh</p>
+    <h1>Communities with pulse, not just posts.</h1>
+    <p class="hero-copy">
+      Explore active spaces, spot what is moving people, and jump into threads with live sentiment and reactions.
+    </p>
+  </section>
+
+  <section class="community-grid">
+    <% @communities.each do |community| %>
+      <article class="community-card">
+        <div class="community-card__header">
+          <p class="community-card__meta">Community</p>
+          <span class="count-pill"><%= community.read_attribute(:messages_count).to_i %> messages</span>
+        </div>
+
+        <h2><%= community.name %></h2>
+        <p class="community-card__description">
+          <%= community.description.presence || "A fresh space waiting for the next conversation." %>
+        </p>
+
+        <%= link_to "Open timeline", community_path(community), class: "primary-link" %>
+      </article>
+    <% end %>
+  </section>
+</main>

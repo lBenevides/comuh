@@ -1,0 +1,11 @@
+<div class="thread-node" style="--depth: <%= depth %>">
+  <%= render "messages/message_card", message: message, context: :thread %>
+
+  <% if message.replies.any? %>
+    <div class="thread-children">
+      <% message.replies.includes(:user, :reactions, :replies).order(created_at: :asc).each do |reply| %>
+        <%= render "messages/thread_message", message: reply, depth: depth + 1 %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

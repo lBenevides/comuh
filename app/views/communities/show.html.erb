@@ -1,0 +1,61 @@
+<% content_for :title, @community.name %>
+
+<main class="shell shell-community">
+  <section class="community-hero">
+    <div>
+      <%= link_to "Back to communities", root_path, class: "back-link" %>
+      <p class="eyebrow">Timeline</p>
+      <h1><%= @community.name %></h1>
+      <p class="hero-copy">
+        <%= @community.description.presence || "Messages, reactions, and replies from this community in reverse chronological order." %>
+      </p>
+    </div>
+
+    <div class="hero-stat">
+      <span>Latest</span>
+      <strong>50 messages</strong>
+    </div>
+  </section>
+
+  <section class="composer"
+    data-controller="message-form"
+    data-message-form-community-id-value="<%= @community.id %>"
+    data-message-form-parent-message-id-value=""
+    data-message-form-target-list-value="community-message-list"
+    data-message-form-mode-value="prepend">
+    <div class="composer__heading">
+      <h2>Start a new thread</h2>
+      <p>Your message is sent in the background and appears here without reloading.</p>
+    </div>
+
+    <form data-message-form-target="form" data-action="submit->message-form#submit">
+      <div class="field-row">
+        <label>
+          <span>Username</span>
+          <input type="text" name="username" required placeholder="your_name">
+        </label>
+
+        <label>
+          <span>IP</span>
+          <input type="text" name="user_ip" required placeholder="192.168.0.1">
+        </label>
+      </div>
+
+      <label>
+        <span>Message</span>
+        <textarea name="content" rows="4" required placeholder="What is happening in this community?"></textarea>
+      </label>
+
+      <div class="composer__actions">
+        <button type="submit" class="primary-button" data-message-form-target="submit">Publish message</button>
+        <p class="form-status" data-message-form-target="status"></p>
+      </div>
+    </form>
+  </section>
+
+  <section class="message-list" id="community-message-list">
+    <% @messages.each do |message| %>
+      <%= render "messages/message_card", message: message, context: :community %>
+    <% end %>
+  </section>
+</main>

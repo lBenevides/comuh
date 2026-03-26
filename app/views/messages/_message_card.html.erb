@@ -1,0 +1,47 @@
+<% counts = reaction_counts_for(message) %>
+<% expanded = local_assigns.fetch(:expanded, false) %>
+
+<article class="message-card <%= "message-card-expanded" if expanded %>" id="message-<%= message.id %>">
+  <div class="message-card__topline">
+    <div>
+      <p class="message-card__author"><%= message.user.username %></p>
+      <p class="message-card__timestamp"><%= time_ago_in_words(message.created_at) %> ago</p>
+    </div>
+
+    <div class="message-card__badges">
+      <span class="sentiment-pill <%= sentiment_tone_class(message.ai_sentiment_score) %>">
+        <%= sentiment_label(message.ai_sentiment_score) %> · <%= number_with_precision(message.ai_sentiment_score.to_f, precision: 2) %>
+      </span>
+    </div>
+  </div>
+
+  <p class="message-card__content"><%= message.content %></p>
+
+  <div class="message-card__footer">
+    <div class="reaction-row" data-controller="reaction" data-reaction-message-id-value="<%= message.id %>">
+      <% Reaction::REACTION_TYPES.each do |reaction_type| %>
+        <button
+          type="button"
+          class="reaction-button"
+          data-action="click->reaction#react"
+          data-reaction-type-param="<%= reaction_type %>">
+          <span><%= reaction_type.capitalize %></span>
+          <strong data-reaction-target="count" data-reaction-type="<%= reaction_type %>"><%= counts[reaction_type] %></strong>
+        </button>
+      <% end %>
+
+      <label class="reaction-user">
+        <span>React as</span>
+        <input type="text" placeholder="username" data-reaction-target="username">
+      </label>
+      <p class="reaction-status" data-reaction-target="status"></p>
+    </div>
+
+    <div class="message-card__meta">
+      <span><%= pluralize(message.replies.size, "reply") %></span>
+      <% if context == :community %>
+        <%= link_to "Open thread", message_path(message), class: "secondary-link" %>
+      <% end %>
+    </div>
+  </div>
+</article>
