@@ -9,13 +9,11 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-
   namespace :api do
     namespace :v1 do
       resources :messages, only: [:create]
       resources :reactions, only: [:create]
+      get "communities/:id/messages/top", to: "communities#top"
     end
   end
 end
