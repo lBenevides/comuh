@@ -1,6 +1,6 @@
 class SentimentAnalyzer
-  POSITIVE_WORDS = ['ótimo', 'excelente', 'legal', 'bom', 'adorei', 'incrível']
-  NEGATIVE_WORDS = ['ruim', 'péssimo', 'horrível', 'terrível', 'odeio']
+  POSITIVE_WORDS = [ "ótimo", "excelente", "legal", "bom", "adorei", "incrível" ]
+  NEGATIVE_WORDS = [ "ruim", "péssimo", "horrível", "terrível", "odeio" ]
 
   def self.call(message)
     normalized_message = message.to_s.downcase

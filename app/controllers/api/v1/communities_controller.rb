@@ -1,6 +1,6 @@
 class Api::V1::CommunitiesController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_community, only: [:top]
+  before_action :set_community, only: [ :top ]
 
   def top
     messages = @community.messages
@@ -30,6 +30,6 @@ class Api::V1::CommunitiesController < ApplicationController
   def limit_param
     requested_limit = params[:limit].presence&.to_i || 10
 
-    [[requested_limit, 1].max, 50].min
+    [ [ requested_limit, 1 ].max, 50 ].min
   end
 end

@@ -1,7 +1,7 @@
 class Api::V1::ReactionsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_message, only: [:create]
-  before_action :set_user, only: [:create]
+  before_action :set_message, only: [ :create ]
+  before_action :set_user, only: [ :create ]
 
   def create
     return if performed?
@@ -19,7 +19,7 @@ class Api::V1::ReactionsController < ApplicationController
       render json: { errors: reaction.errors.full_messages }, status: :unprocessable_content
     end
   rescue ActiveRecord::RecordNotUnique
-    render json: { errors: [I18n.t("api.errors.already_reacted")] }, status: :conflict
+    render json: { errors: [ I18n.t("api.errors.already_reacted") ] }, status: :conflict
   end
 
   private
@@ -39,9 +39,9 @@ class Api::V1::ReactionsController < ApplicationController
       end
 
     if @user&.valid?
-      return
+      nil
     elsif reaction_params[:username].present?
-      render json: { errors: @user&.errors&.full_messages || [I18n.t("activerecord.errors.models.user.attributes.username.blank")] }, status: :unprocessable_content
+      render json: { errors: @user&.errors&.full_messages || [ I18n.t("activerecord.errors.models.user.attributes.username.blank") ] }, status: :unprocessable_content
     else
       render json: { error: I18n.t("api.errors.user_not_found") }, status: :not_found
     end

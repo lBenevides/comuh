@@ -1,7 +1,7 @@
 class Api::V1::MessagesController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_community, only: [:create]
-  before_action :set_user, only: [:create]
+  before_action :set_community, only: [ :create ]
+  before_action :set_user, only: [ :create ]
 
   def create
     return if performed?

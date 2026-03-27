@@ -67,7 +67,7 @@ RSpec.describe "Api::V1::Analytics", type: :request do
           {
             "ip" => "10.0.0.1",
             "user_count" => 3,
-            "usernames" => ["alice", "bruno", "carol"]
+            "usernames" => [ "alice", "bruno", "carol" ]
           }
         ]
       )
@@ -84,12 +84,12 @@ RSpec.describe "Api::V1::Analytics", type: :request do
         {
           "ip" => "10.0.0.1",
           "user_count" => 3,
-          "usernames" => ["alice", "bruno", "carol"]
+          "usernames" => [ "alice", "bruno", "carol" ]
         },
         {
           "ip" => "10.0.0.2",
           "user_count" => 2,
-          "usernames" => ["alice", "bruno"]
+          "usernames" => [ "alice", "bruno" ]
         }
       )
     end
@@ -105,7 +105,7 @@ RSpec.describe "Api::V1::Analytics", type: :request do
 
       expect(suspicious_ip).to include(
         "user_count" => 3,
-        "usernames" => ["alice", "bruno", "carol"]
+        "usernames" => [ "alice", "bruno", "carol" ]
       )
     end
   end

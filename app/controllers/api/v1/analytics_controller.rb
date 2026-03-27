@@ -28,7 +28,7 @@ class Api::V1::AnalyticsController < ApplicationController
   def min_users_param
     requested_min_users = params[:min_users].presence&.to_i || 3
 
-    [requested_min_users, 1].max
+    [ requested_min_users, 1 ].max
   end
 
   def suspicious_ip_usernames

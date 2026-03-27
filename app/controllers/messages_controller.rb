@@ -44,7 +44,7 @@ class MessagesController < ApplicationController
   private
 
   def set_message
-    @message = Message.includes(:user, :reactions, replies: [:user, :reactions]).find(params[:id])
+    @message = Message.includes(:user, :reactions, replies: [ :user, :reactions ]).find(params[:id])
   end
 
   def message_params

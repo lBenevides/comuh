@@ -91,7 +91,7 @@ RSpec.describe "Api::V1::Reactions", type: :request do
 
       expect(response).to have_http_status(:conflict)
       expect(JSON.parse(response.body)).to eq(
-        "errors" => ["Usuario ja adicionou essa reacao nesta mensagem"]
+        "errors" => [ "Usuario ja adicionou essa reacao nesta mensagem" ]
       )
     end
 
@@ -140,7 +140,7 @@ RSpec.describe "Api::V1::Reactions", type: :request do
 
       expect(response).to have_http_status(:unprocessable_content)
       expect(JSON.parse(response.body)).to eq(
-        "errors" => ["Usuario nao pode ficar em branco"]
+        "errors" => [ "Usuario nao pode ficar em branco" ]
       )
     end
 
@@ -149,7 +149,7 @@ RSpec.describe "Api::V1::Reactions", type: :request do
 
       expect(response).to have_http_status(:unprocessable_content)
       expect(JSON.parse(response.body)).to eq(
-        "errors" => ["Tipo de reacao nao esta incluido na lista"]
+        "errors" => [ "Tipo de reacao nao esta incluido na lista" ]
       )
     end
 
@@ -172,7 +172,7 @@ RSpec.describe "Api::V1::Reactions", type: :request do
 
       expect(response).to have_http_status(:conflict)
       expect(JSON.parse(response.body)).to eq(
-        "errors" => ["Usuario ja adicionou essa reacao nesta mensagem"]
+        "errors" => [ "Usuario ja adicionou essa reacao nesta mensagem" ]
       )
     end
   end

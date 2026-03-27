@@ -27,7 +27,7 @@ class SeedApiClient
       http.request(request)
     end
 
-    [response.code.to_i, parse_body(response.body)]
+    [ response.code.to_i, parse_body(response.body) ]
   end
 
   def local_post(path, payload)
@@ -37,7 +37,7 @@ class SeedApiClient
       as: :json
     )
 
-    [@session.response.status, parse_body(@session.response.body)]
+    [ @session.response.status, parse_body(@session.response.body) ]
   end
 
   def parse_body(body)
@@ -49,11 +49,11 @@ end
 
 class ProjectSeeder
   COMMUNITY_BLUEPRINTS = [
-    ["General", "Open discussion for product updates, daily questions, and the pulse of the platform."],
-    ["Tech Lab", "Build notes, engineering opinions, debugging wins, and experiments with new stacks."],
-    ["Design Circle", "Interface critiques, visual references, typography details, and UX tradeoffs."],
-    ["Growth Room", "Acquisition ideas, retention analysis, campaign review, and conversion lessons."],
-    ["Support Radar", "Bugs, friction points, customer reports, and what needs attention first."]
+    [ "General", "Open discussion for product updates, daily questions, and the pulse of the platform." ],
+    [ "Tech Lab", "Build notes, engineering opinions, debugging wins, and experiments with new stacks." ],
+    [ "Design Circle", "Interface critiques, visual references, typography details, and UX tradeoffs." ],
+    [ "Growth Room", "Acquisition ideas, retention analysis, campaign review, and conversion lessons." ],
+    [ "Support Radar", "Bugs, friction points, customer reports, and what needs attention first." ]
   ].freeze
 
   USER_PREFIXES = %w[

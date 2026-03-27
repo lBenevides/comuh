@@ -11,14 +11,14 @@ Rails.application.routes.draw do
 
   root "communities#index"
 
-  resources :communities, only: [:index, :show]
-  resources :messages, only: [:show, :create]
-  resources :reactions, only: [:create]
+  resources :communities, only: [ :index, :show ]
+  resources :messages, only: [ :show, :create ]
+  resources :reactions, only: [ :create ]
 
   namespace :api do
     namespace :v1 do
-      resources :messages, only: [:create]
-      resources :reactions, only: [:create]
+      resources :messages, only: [ :create ]
+      resources :reactions, only: [ :create ]
       get "communities/:id/messages/top", to: "communities#top"
       get "analytics/suspicious_ips", to: "analytics#suspicious_ips"
     end
