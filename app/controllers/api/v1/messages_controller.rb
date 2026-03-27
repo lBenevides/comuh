@@ -19,7 +19,7 @@ class Api::V1::MessagesController < ApplicationController
     if @message.save
       render json: MessageSerializer.new(@message).as_json, status: :created
     else
-      render json: { errors: @message.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @message.errors.full_messages }, status: :unprocessable_content
     end
   end
 
@@ -44,6 +44,6 @@ class Api::V1::MessagesController < ApplicationController
   def set_user
     @user = User.find_or_create_by(username: message_params[:username])
 
-    render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity unless @user.valid?
+    render json: { errors: @user.errors.full_messages }, status: :unprocessable_content unless @user.valid?
   end
 end

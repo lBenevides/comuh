@@ -16,7 +16,7 @@ class Api::V1::ReactionsController < ApplicationController
     elsif duplicate_reaction_error?(reaction)
       render json: { errors: reaction.errors.full_messages }, status: :conflict
     else
-      render json: { errors: reaction.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: reaction.errors.full_messages }, status: :unprocessable_content
     end
   rescue ActiveRecord::RecordNotUnique
     render json: { errors: [I18n.t("api.errors.already_reacted")] }, status: :conflict
@@ -41,7 +41,7 @@ class Api::V1::ReactionsController < ApplicationController
     if @user&.valid?
       return
     elsif reaction_params[:username].present?
-      render json: { errors: @user&.errors&.full_messages || [I18n.t("activerecord.errors.models.user.attributes.username.blank")] }, status: :unprocessable_entity
+      render json: { errors: @user&.errors&.full_messages || [I18n.t("activerecord.errors.models.user.attributes.username.blank")] }, status: :unprocessable_content
     else
       render json: { error: I18n.t("api.errors.user_not_found") }, status: :not_found
     end
