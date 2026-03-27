@@ -16,7 +16,7 @@ class Api::V1::CommunitiesController < ApplicationController
       .order(Arel.sql("engagement_score DESC, messages.created_at DESC"))
       .limit(limit_param)
 
-    render json: CommunityTopMessagesSerializer.new(messages).as_json, status: :ok
+  render json: CommunityTopMessagesSerializer.new(messages).as_json, status: :ok
   end
 
   private
