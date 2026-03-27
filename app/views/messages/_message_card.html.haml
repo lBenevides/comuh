@@ -1,6 +1,8 @@
 - counts = reaction_counts_for(message)
 - expanded = local_assigns.fetch(:expanded, false)
 
+= turbo_stream_from [message, context]
+
 %article.message-card{ class: ("message-card-expanded" if expanded), id: "message-#{message.id}" }
   .message-card__topline
     %div

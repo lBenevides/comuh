@@ -1,6 +1,8 @@
 - content_for :title, @community.name
 
 %main.shell.shell-community
+  = turbo_stream_from @community
+
   %section.community-hero
     %div
       = link_to t("communities.show.back"), root_path, class: "back-link"

@@ -1,0 +1,8 @@
+%article.community-card{ id: dom_id(community) }
+  .community-card__header
+    %p.community-card__meta= t("communities.index.card_meta")
+    %span.count-pill= t("communities.index.messages_count", count: community.read_attribute(:messages_count).to_i)
+
+  %h2= community.name
+  %p.community-card__description= community.description.presence || t("communities.index.empty_description")
+  = link_to t("communities.index.open_timeline"), community_path(community), class: "primary-link"

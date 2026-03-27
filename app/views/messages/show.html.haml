@@ -1,6 +1,8 @@
 - content_for :title, t("messages.show.title", id: @message.id)
 
 %main.shell.shell-thread
+  = turbo_stream_from @message
+
   %section.thread-header
     = link_to t("messages.show.back", community: @message.community.name), community_path(@message.community), class: "back-link"
     %p.eyebrow= t("messages.show.eyebrow")
