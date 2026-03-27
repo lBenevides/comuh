@@ -41,7 +41,7 @@ RSpec.describe "Api::V1::Messages", type: :request do
     it "returns an error when username is invalid" do
       post "/api/v1/messages", params: payload.merge(username: nil)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(JSON.parse(response.body)).to eq(
         "errors" => ["Usuario nao pode ficar em branco"]
       )
@@ -59,7 +59,7 @@ RSpec.describe "Api::V1::Messages", type: :request do
     it "returns validation errors when content is missing" do
       post "/api/v1/messages", params: payload.merge(content: nil)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(JSON.parse(response.body)).to eq(
         "errors" => ["Conteudo nao pode ficar em branco"]
       )

@@ -113,24 +113,66 @@ RSpec.describe "Api::V1::Reactions", type: :request do
       )
     end
 
+    it "creates a reaction when identifying the user by username" do
+      expect do
+        post "/api/v1/reactions", params: payload.except(:user_id).merge(username: "bia")
+      end.to change(Reaction, :count).by(1)
+        .and change(User, :count).by(1)
+
+      expect(response).to have_http_status(:ok)
+      expect(JSON.parse(response.body)).to eq(
+        "message_id" => message.id,
+        "reactions" => {
+          "like" => 1,
+          "love" => 0,
+          "insightful" => 0
+        }
+      )
+    end
+
+    it "returns unprocessable content when username is invalid" do
+      invalid_user = User.new(username: nil)
+      invalid_user.valid?
+
+      allow(User).to receive(:find_or_create_by).and_return(invalid_user)
+
+      post "/api/v1/reactions", params: payload.except(:user_id).merge(username: "bia")
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(JSON.parse(response.body)).to eq(
+        "errors" => ["Usuario nao pode ficar em branco"]
+      )
+    end
+
     it "returns unprocessable entity for invalid reaction type" do
       post "/api/v1/reactions", params: payload.merge(reaction_type: "haha")
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(JSON.parse(response.body)).to eq(
         "errors" => ["Tipo de reacao nao esta incluido na lista"]
       )
     end
 
-    it "returns unprocessable entity when reaction_type is missing" do
+    it "returns unprocessable content when reaction_type is missing" do
       post "/api/v1/reactions", params: payload.except(:reaction_type)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(JSON.parse(response.body)).to eq(
         "errors" => [
           "Tipo de reacao nao pode ficar em branco",
           "Tipo de reacao nao esta incluido na lista"
         ]
+      )
+    end
+
+    it "returns conflict when the insert hits a uniqueness race" do
+      allow_any_instance_of(Reaction).to receive(:save).and_raise(ActiveRecord::RecordNotUnique)
+
+      post "/api/v1/reactions", params: payload
+
+      expect(response).to have_http_status(:conflict)
+      expect(JSON.parse(response.body)).to eq(
+        "errors" => ["Usuario ja adicionou essa reacao nesta mensagem"]
       )
     end
   end
