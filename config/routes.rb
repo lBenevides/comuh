@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   root "communities#index"
 
   resources :communities, only: [:index, :show]
-  resources :messages, only: [:show]
+  resources :messages, only: [:show, :create]
+  resources :reactions, only: [:create]
 
   namespace :api do
     namespace :v1 do
