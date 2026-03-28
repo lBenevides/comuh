@@ -165,7 +165,7 @@ RSpec.describe "Api::V1::Reactions", type: :request do
       )
     end
 
-    it "returns conflict when the insert hits a uniqueness race" do
+    it "returns conflict when the database uniqueness constraint is hit during a race" do
       allow_any_instance_of(Reaction).to receive(:save).and_raise(ActiveRecord::RecordNotUnique)
 
       post "/api/v1/reactions", params: payload

@@ -58,4 +58,15 @@ RSpec.describe Reaction, type: :model do
       expect(second_reaction).to be_valid
     end
   end
+
+  describe "database constraints" do
+    it "has a unique index for message, user, and reaction type" do
+      indexes = ActiveRecord::Base.connection.indexes(:reactions)
+      unique_index = indexes.find { |index| index.name == "index_reactions_on_message_user_and_type" }
+
+      expect(unique_index).to be_present
+      expect(unique_index.unique).to be(true)
+      expect(unique_index.columns).to eq(%w[message_id user_id reaction_type])
+    end
+  end
 end
