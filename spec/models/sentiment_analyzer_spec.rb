@@ -29,5 +29,17 @@ RSpec.describe SentimentAnalyzer do
 
       expect(message).to eq("Ótimo Conteúdo")
     end
+
+    it "uses the AI analyzer when external is true" do
+      allow(AISentimentAnalyzer).to receive(:call).with("Mensagem externa").and_return(0.61)
+
+      expect(described_class.call("Mensagem externa", external: true)).to eq(0.61)
+    end
+
+    it "falls back to the legacy analyzer when the AI analyzer fails" do
+      allow(AISentimentAnalyzer).to receive(:call).with("Conteudo otimo e legal").and_raise(StandardError)
+
+      expect(described_class.call("Conteudo otimo e legal", external: true)).to eq(1.0)
+    end
   end
 end

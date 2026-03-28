@@ -14,7 +14,7 @@ class Api::V1::MessagesController < ApplicationController
       parent_message_id: message_params[:parent_message_id]
     )
 
-    @message.ai_sentiment_score = SentimentAnalyzer.call(@message.content)
+    @message.ai_sentiment_score = SentimentAnalyzer.call(@message.content, external: true)
 
     if @message.save
       render json: MessageSerializer.new(@message).as_json, status: :created

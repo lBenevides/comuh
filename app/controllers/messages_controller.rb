@@ -29,7 +29,7 @@ class MessagesController < ApplicationController
       parent_message_id: message_params[:parent_message_id].presence
     )
 
-    @message.ai_sentiment_score = SentimentAnalyzer.call(@message.content)
+    @message.ai_sentiment_score = SentimentAnalyzer.call(@message.content, external: true)
 
     if @message.save
       respond_to do |format|
