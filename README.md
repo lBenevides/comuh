@@ -150,7 +150,7 @@ Ferramentas configuradas:
 - Brakeman
 - bundler-audit
 
-Cobertura do relatório local atual em [`coverage/index.html`](/home/bene/projects/comuh/coverage/index.html): `26.8%` (`108/403` linhas relevantes cobertas).
+Cobertura do relatório local atual em [`coverage/index.html`](/home/bene/projects/comuh/coverage/index.html): `73.12%` (`204/279` linhas relevantes cobertas).
 
 ## Endpoints da API
 
@@ -209,6 +209,16 @@ Rotas principais:
 - `/messages/:id`
 
 A interface é server-rendered com Haml e enriquecida com Turbo/Stimulus para interações sem reload.
+
+## Capturas de tela
+
+### Home de comunidades
+
+Tela inicial com listagem de comunidades, contagem de mensagens e acesso direto para a timeline de cada comunidade.
+
+### Timeline de comunidade
+
+Tela da comunidade com composição de nova thread, listagem de mensagens, indicadores de sentimento e reações sem reload.
 
 ## Deploy
 
