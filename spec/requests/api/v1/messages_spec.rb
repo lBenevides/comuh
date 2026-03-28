@@ -43,7 +43,7 @@ RSpec.describe "Api::V1::Messages", type: :request do
 
       expect(response).to have_http_status(:unprocessable_content)
       expect(JSON.parse(response.body)).to eq(
-        "errors" => [ "Usuario nao pode ficar em branco" ]
+        "errors" => [ "Usuário não pode ficar em branco" ]
       )
     end
 
@@ -52,7 +52,7 @@ RSpec.describe "Api::V1::Messages", type: :request do
 
       expect(response).to have_http_status(:not_found)
       expect(JSON.parse(response.body)).to eq(
-        "error" => "Comunidade nao encontrada"
+        "error" => "Comunidade não encontrada"
       )
     end
 
@@ -61,7 +61,7 @@ RSpec.describe "Api::V1::Messages", type: :request do
 
       expect(response).to have_http_status(:unprocessable_content)
       expect(JSON.parse(response.body)).to eq(
-        "errors" => [ "Conteudo nao pode ficar em branco" ]
+        "errors" => [ "Conteúdo não pode ficar em branco" ]
       )
     end
 

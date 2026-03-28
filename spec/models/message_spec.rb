@@ -20,28 +20,28 @@ RSpec.describe Message, type: :model do
       message = described_class.new(user: user, community: community, content: nil, user_ip: "192.168.1.1")
 
       expect(message).not_to be_valid
-      expect(message.errors.full_messages).to include("Conteudo nao pode ficar em branco")
+      expect(message.errors.full_messages).to include("Conteúdo não pode ficar em branco")
     end
 
     it "requires user_ip" do
       message = described_class.new(user: user, community: community, content: "Hello world", user_ip: nil)
 
       expect(message).not_to be_valid
-      expect(message.errors.full_messages).to include("IP do usuario nao pode ficar em branco")
+      expect(message.errors.full_messages).to include("IP do usuário não pode ficar em branco")
     end
 
     it "requires a user" do
       message = described_class.new(community: community, content: "Hello world", user_ip: "192.168.1.1")
 
       expect(message).not_to be_valid
-      expect(message.errors.full_messages).to include("Usuario nao pode ficar em branco")
+      expect(message.errors.full_messages).to include("Usuário não pode ficar em branco")
     end
 
     it "requires a community" do
       message = described_class.new(user: user, content: "Hello world", user_ip: "192.168.1.1")
 
       expect(message).not_to be_valid
-      expect(message.errors.full_messages).to include("Comunidade nao pode ficar em branco")
+      expect(message.errors.full_messages).to include("Comunidade não pode ficar em branco")
     end
   end
 

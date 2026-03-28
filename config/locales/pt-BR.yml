@@ -7,18 +7,18 @@
       en: "EN"
   api:
     errors:
-      community_not_found: "Comunidade nao encontrada"
-      message_not_found: "Mensagem nao encontrada"
-      user_not_found: "Usuario nao encontrado"
-      already_reacted: "Usuario ja adicionou essa reacao nesta mensagem"
+      community_not_found: "Comunidade não encontrada"
+      message_not_found: "Mensagem não encontrada"
+      user_not_found: "Usuário não encontrado"
+      already_reacted: "Usuário já adicionou essa reação nesta mensagem"
   communities:
     index:
       title: "Comunidades"
       eyebrow: "Comuh"
-      headline: "Comunidades com pulso, nao so posts."
-      copy: "Explore espacos ativos, veja o que esta movimentando as pessoas e entre em threads com sentimento e reacoes ao vivo."
+      headline: "Comunidades com pulso, não só posts."
+      copy: "Explore espaços ativos, veja o que está movimentando as pessoas e entre em threads com sentimento e reações ao vivo."
       card_meta: "Comunidade"
-      empty_description: "Um espaco novo esperando pela proxima conversa."
+      empty_description: "Um espaço novo esperando pela próxima conversa."
       open_timeline: "Abrir timeline"
       messages_count:
         one: "%{count} mensagem"
@@ -26,8 +26,8 @@
     show:
       back: "Voltar para comunidades"
       eyebrow: "Timeline"
-      empty_description: "Mensagens, reacoes e respostas desta comunidade em ordem da mais recente para a mais antiga."
-      latest: "Ultimas"
+      empty_description: "Mensagens, reações e respostas desta comunidade em ordem da mais recente para a mais antiga."
+      latest: "Últimas"
       latest_value: "50 mensagens"
   messages:
     show:
@@ -37,12 +37,12 @@
       headline: "Mensagem principal e respostas"
     composer:
       new_thread_title: "Iniciar nova thread"
-      new_thread_description: "Sua mensagem e enviada em background e aparece aqui sem recarregar."
-      new_thread_placeholder: "O que esta acontecendo nesta comunidade?"
-      reply_title: "Responder esta mensagem"
-      reply_description: "Os comentarios sao publicados em background e adicionados a thread instantaneamente."
-      reply_placeholder: "Adicione contexto, faca uma pergunta ou mantenha a thread em movimento."
-      username: "Usuario"
+      new_thread_description: "Sua mensagem é enviada em background e aparece aqui sem recarregar."
+      new_thread_placeholder: "O que está acontecendo nesta comunidade?"
+      reply_title: "Responder a esta mensagem"
+      reply_description: "Os comentários são publicados em background e adicionados à thread instantaneamente."
+      reply_placeholder: "Adicione contexto, faça uma pergunta ou mantenha a thread em movimento."
+      username: "Usuário"
       content: "Mensagem"
       reply: "Resposta"
       submit_message: "Publicar mensagem"
@@ -50,7 +50,7 @@
       status:
         sending: "Enviando..."
         success: "Publicado."
-        generic_error: "Nao foi possivel enviar a mensagem."
+        generic_error: "Não foi possível enviar a mensagem."
       timestamp:
         just_now: "agora mesmo"
     card:
@@ -64,53 +64,53 @@
       open_thread: "Abrir thread"
     reactions:
       react_as: "Reagir como"
-      username_placeholder: "usuario"
+      username_placeholder: "usuário"
       status:
-        missing_reaction: "Nao foi possivel identificar a reacao selecionada."
-        enter_username: "Informe um usuario para reagir."
+        missing_reaction: "Não foi possível identificar a reação selecionada."
+        enter_username: "Informe um usuário para reagir."
         saving: "Salvando..."
-        success: "Reacao salva."
-        generic_error: "Nao foi possivel salvar a reacao."
+        success: "Reação salva."
+        generic_error: "Não foi possível salvar a reação."
       types:
         like: "Curtir"
         love: "Amar"
-        insightful: "Insightful"
+        insightful: "Perspicaz"
   activerecord:
     models:
-      user: "Usuario"
+      user: "Usuário"
       community: "Comunidade"
       message: "Mensagem"
-      reaction: "Reacao"
+      reaction: "Reação"
     attributes:
       user:
-        username: "Usuario"
+        username: "Usuário"
       community:
         name: "Nome"
       message:
-        content: "Conteudo"
-        user_ip: "IP do usuario"
-        user: "Usuario"
+        content: "Conteúdo"
+        user_ip: "IP do usuário"
+        user: "Usuário"
         community: "Comunidade"
       reaction:
-        reaction_type: "Tipo de reacao"
-        user_id: "Usuario"
+        reaction_type: "Tipo de reação"
+        user_id: "Usuário"
     errors:
       models:
         user:
           attributes:
             username:
-              blank: "nao pode ficar em branco"
+              blank: "não pode ficar em branco"
         reaction:
           attributes:
             reaction_type:
-              blank: "nao pode ficar em branco"
-              inclusion: "nao esta incluido na lista"
+              blank: "não pode ficar em branco"
+              inclusion: "não está incluído na lista"
   errors:
     messages:
-      blank: "nao pode ficar em branco"
-      taken: "ja esta em uso"
-      inclusion: "nao esta incluido na lista"
-      already_reacted: "ja adicionou essa reacao nesta mensagem"
+      blank: "não pode ficar em branco"
+      taken: "já está em uso"
+      inclusion: "não está incluído na lista"
+      already_reacted: "já adicionou essa reação nesta mensagem"
   time:
     formats:
       message_card: "%d/%m/%Y %H:%M"
