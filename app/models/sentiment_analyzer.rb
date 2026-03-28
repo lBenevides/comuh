@@ -6,7 +6,10 @@ class SentimentAnalyzer
     return legacy_score(message) unless external
 
     AISentimentAnalyzer.call(message)
-  rescue StandardError
+  rescue StandardError => error
+    Rails.logger.error(
+      "[SentimentAnalyzer] external analyzer failed: #{error.class}: #{error.message}"
+    )
     legacy_score(message)
   end
 
