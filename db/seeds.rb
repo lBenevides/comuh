@@ -1,4 +1,5 @@
 require "json"
+require "faker"
 require "net/http"
 require "set"
 require "uri"
@@ -56,16 +57,6 @@ class ProjectSeeder
     [ "Support Radar", "Bugs, friction points, customer reports, and what needs attention first." ]
   ].freeze
 
-  USER_PREFIXES = %w[
-    amber atlas breeze cedar comet ember fern harbor iris juniper
-    kite lunar maple nova orbit pixel quartz river solar terra
-  ].freeze
-
-  USER_SUFFIXES = %w[
-    fox owl pine wave trail spark bloom echo ember drift field
-    forge grove loom mist peak ridge stone vale verse wing
-  ].freeze
-
   POSITIVE_SNIPPETS = [
     "ótimo avanço no fluxo",
     "excelente entrega visual",
@@ -96,6 +87,8 @@ class ProjectSeeder
   def initialize
     @api = SeedApiClient.new
     @random = Random.new(20260326)
+    Faker::Config.random = @random
+    Faker::UniqueGenerator.clear
     @message_refs = []
     @communities = []
     @usernames = build_usernames
@@ -232,31 +225,25 @@ class ProjectSeeder
     end
 
     [
-      "Community #{community_name}:",
+      "#{community_name}:",
       snippets.sample(random: @random),
+      Faker::Lorem.sentence(word_count: 8),
       "Thread ##{@random.rand(10_000..99_999)}"
     ].join(" ")
   end
 
   def build_reply_content
     [
-      "Reply follow-up:",
+      Faker::Lorem.sentence(word_count: 3),
       (POSITIVE_SNIPPETS + NEGATIVE_SNIPPETS + NEUTRAL_SNIPPETS).sample(random: @random),
-      "Context #{@random.rand(100..999)}"
+      "Contexto #{Faker::Number.number(digits: 3)}"
     ].join(" ")
   end
 
   def build_usernames
-    usernames = []
-
-    USER_PREFIXES.each do |prefix|
-      USER_SUFFIXES.each do |suffix|
-        usernames << "#{prefix}_#{suffix}"
-        return usernames.first(user_count) if usernames.size >= user_count
-      end
+    Array.new(user_count) do
+      Faker::Internet.unique.username(specifier: 3..7, separators: [ "_" ]).downcase
     end
-
-    usernames.first(user_count)
   end
 
   def post_json!(path, payload, expected_status:)
@@ -299,7 +286,7 @@ class ProjectSeeder
   end
 
   def user_count
-    ENV.fetch("SEED_USERS", 50).to_i.clamp(1, USER_PREFIXES.size * USER_SUFFIXES.size)
+    ENV.fetch("SEED_USERS", 50).to_i.clamp(1, 10_000)
   end
 
   def root_message_target
