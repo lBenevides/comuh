@@ -19,7 +19,7 @@ Plataforma de comunidades construída em Ruby on Rails com API REST e interface 
 - Criação de mensagens e respostas sem reload
 - Reações sem reload
 - Thread de comentários
-- Score simples de sentimento em novas mensagens
+- Score de sentimento em novas mensagens com integração opcional via Gemini
 - API REST em `/api/v1`
 - Endpoint de top mensagens por engajamento
 - Endpoint de analytics para IPs suspeitos
@@ -212,13 +212,9 @@ A interface é server-rendered com Haml e enriquecida com Turbo/Stimulus para in
 
 ## Capturas de tela
 
-### Home de comunidades
+<img width="1084" height="842" alt="image" src="https://github.com/user-attachments/assets/738ae2a3-8b16-4f0c-8366-158e10a1790b" />
+<img width="866" height="892" alt="image" src="https://github.com/user-attachments/assets/5bc25efb-4c32-4d35-b37c-bb68722ec251" />
 
-Tela inicial com listagem de comunidades, contagem de mensagens e acesso direto para a timeline de cada comunidade.
-
-### Timeline de comunidade
-
-Tela da comunidade com composição de nova thread, listagem de mensagens, indicadores de sentimento e reações sem reload.
 
 ## Deploy
 
